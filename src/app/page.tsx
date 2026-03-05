@@ -19,7 +19,7 @@ import {
   Building2,
   History,
   Award,
-  TrendingUp // Bunu da ekleyelim, lazım olabilir
+  TrendingUp
 } from 'lucide-react';
 
 export default function ElitMenkulFinalMaster() {
