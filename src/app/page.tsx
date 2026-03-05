@@ -1,256 +1,210 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+// Gerekli tüm ikonları ekliyoruz (Eksiltmemek için lucide-react yüklü olmalıdır)
 import { 
-  Shield, BarChart3, Globe, MousePointer2, ChevronRight, Phone, Mail, 
-  Clock, MessageCircle, CheckCircle2, X, Users, Plus, Minus, Zap, 
-  Building2, History, Award, TrendingUp, PieChart, Landmark, Briefcase,
-  ArrowDownUp, CircleDollarSign, ZapOff, Activity, Target, TrendingDown
+  Shield, 
+  BarChart3, 
+  Globe, 
+  MousePointer2, 
+  ChevronRight, 
+  Phone, 
+  Mail, 
+  Clock, 
+  MessageCircle,
+  CheckCircle2,
+  X,
+  Users,
+  Plus,
+  Minus
 } from 'lucide-react';
 
-// TRADINGVIEW CANLI VERİ BİLEŞENİ (Widget)
-const TradingViewTicker = () => {
-  const container = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (container.current && !container.current.querySelector('script')) {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = JSON.stringify({
-        "symbols": [
-          { "proName": "BIST:XU100", "title": "BIST 100" },
-          { "proName": "FX_IDC:USDTRY", "title": "USD/TRY" },
-          { "proName": "FX_IDC:EURTRY", "title": "EUR/TRY" },
-          { "proName": "OANDA:XAUUSD", "title": "ONS ALTIN" },
-          { "proName": "BITSTAMP:BTCUSD", "title": "BITCOIN" },
-          { "proName": "FX:GBPUSD", "title": "GBP/USD" }
-        ],
-        "showSymbolLogo": true,
-        "colorTheme": "dark",
-        "isTransparent": false,
-        "displayMode": "adaptive",
-        "locale": "tr"
-      });
-      container.current.appendChild(script);
-    }
-  }, []);
-
-  return (
-    <div ref={container} className="tradingview-widget-container border-b border-white/10" />
-  );
-};
-
-export default function ElitMenkulUltimateMaster() {
+export default function ElitMenkulProfesyonelPage() {
+  const [activeModal, setActiveModal] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const REGISTER_URL = "https://sube.elitmenkulonline.com/register";
+  // Kurumsal Bilgiler (image_9.png'daki metne uygun şekilde düzenlendi)
   const WHATSAPP_URL = "https://wa.me/905391046011"; 
+  const REGISTER_URL = "https://sube.elitmenkulonline.com/register";
   const TELEFON = "+90 539 104 60 11";
+
+  const faqs = [
+    { q: "Hesap Açılış Süreci Nasıl İlerler?", a: "Dijital kayıt formumuzu doldurmanızın ardından müşteri temsilcimiz sizinle iletişime geçer ve hesabınız dakikalar içinde aktif edilir." },
+    { q: "Varlıklarım Güvende mi?", a: "Tüm varlıklarınız Takasbank güvencesinde, kurumumuzdan ayrı hesaplarda saklanır ve devlet denetimi altındadır." },
+    { q: "Destek Hizmetlerinden Nasıl Yararlanabilirim?", a: "Hafta içi her gün uzman yatırım danışmanlarımıza WhatsApp, telefon veya e-posta yoluyla anlık olarak ulaşabilirsiniz." }
+  ];
 
   return (
     <div className="min-h-screen bg-white text-[#1b294b] font-sans selection:bg-[#c5a059] selection:text-white">
       
-      {/* 1. GERÇEK ZAMANLI PİYASA BANDI */}
-      <div className="sticky top-0 z-[150]">
-        <TradingViewTicker />
+      {/* 1. ÜST BİLGİ VE İLETİŞİM ÇUBUĞU (Kurumsal Güven İçin) */}
+      <div className="bg-[#1b294b] text-white py-2 px-6 md:px-12 text-[10px] flex justify-between items-center border-b border-white/5 tracking-[0.1em] font-bold">
+        <div className="flex gap-6">
+          <a href={`tel:${TELEFON}`} className="flex items-center gap-1.5 hover:text-[#c5a059] transition">
+            <Phone size={12} className="text-[#c5a059]" /> {TELEFON}
+          </a>
+          <span className="hidden sm:flex items-center gap-1.5 opacity-80">
+            <Mail size={12} className="text-[#c5a059]" /> info@elitmenkultr.com
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 opacity-80 uppercase font-black">
+          <Clock size={12} className="text-[#c5a059]" /> 2003'TEN BERİ İSTANBUL
+        </div>
       </div>
 
-      {/* 2. E-ŞUBE HIZLI ERİŞİM ŞERİDİ */}
-      <div className="bg-[#1b294b] py-3 px-6 md:px-12 flex justify-between items-center relative z-[140]">
-        <div className="flex items-center gap-4 text-[10px] font-black text-white/60 tracking-widest uppercase">
-          <Activity size={14} className="text-green-500 animate-pulse" /> 
-          Piyasa Durumu: <span className="text-white">Gerçek Zamanlı Veri Aktif</span>
+      {/* 2. HEADER / LOGO ALANI */}
+      <header className="bg-white sticky top-0 z-[100] py-4 px-6 md:px-12 flex justify-between items-center shadow-sm">
+        <div className="flex items-center gap-2">
+          {/* image_9.png'daki kurumsal "E" logosunun stilize hali */}
+          <div className="w-10 h-10 bg-[#1b294b] flex items-center justify-center rounded-lg font-black text-[#c5a059] text-xl italic shadow-lg">E</div>
+          <div className="text-2xl font-black tracking-tighter leading-none uppercase">ELİT<br/><span className="text-[#c5a059] text-lg tracking-[0.1em]">MENKUL</span></div>
         </div>
-        <a href={REGISTER_URL} target="_blank" rel="noopener noreferrer" className="bg-[#c5a059] hover:bg-white hover:text-[#1b294b] text-white px-8 py-2 rounded text-[10px] font-black tracking-widest transition-all shadow-xl uppercase">
-          E-ŞUBE / WEB TRADER GİRİŞ
-        </a>
-      </div>
-
-      {/* 3. ANA NAVİGASYON */}
-      <nav className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 relative z-[130]">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex gap-8 items-center order-2 md:order-1">
-            <a href="#avantajlar" className="text-[11px] font-black hover:text-[#c5a059] transition uppercase tracking-[0.2em]">Avantajlar</a>
-            <a href="#piyasalar" className="text-[11px] font-black hover:text-[#c5a059] transition uppercase tracking-[0.2em]">Piyasalar</a>
-          </div>
-
-          <div className="flex flex-col items-center order-1 md:order-2">
-            <div className="flex items-baseline">
-              <span className="text-5xl font-light text-gray-800 tracking-tighter italic">Elit</span>
-              <span className="ml-2 text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em]">Aracı Kurum A.Ş.</span>
-            </div>
-          </div>
-
-          <div className="flex gap-8 items-center order-3">
-            <a href="#hakkimizda" className="text-[11px] font-black hover:text-[#c5a059] transition uppercase tracking-[0.2em]">Kurumsal</a>
-            <a href="#iletisim" className="text-[11px] font-black border-b-2 border-[#c5a059] pb-1 uppercase tracking-[0.2em]">İletişim</a>
-          </div>
+        <div className="flex items-center gap-3">
+          <a href={REGISTER_URL} target="_blank" className="bg-[#1b294b] text-white px-8 py-3 rounded-md font-bold text-xs tracking-widest hover:bg-[#c5a059] transition shadow-md flex items-center gap-2 uppercase">
+            WEB TRADER <MousePointer2 size={16} />
+          </a>
         </div>
-      </nav>
+      </header>
 
-      {/* 4. HERO SECTION */}
-      <section className="relative h-[750px] flex items-center px-6 md:px-24 bg-[#0a1428] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974717482-58a00f244b3d?q=80&w=2070')] bg-cover bg-center opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1428] via-[#0a1428]/90 to-transparent z-10"></div>
-        
+      {/* 3. HERO SECTION (image_9.png'daki bölümün profesyonelce detaylandırılmış hali) */}
+      <section className="relative h-[700px] flex items-center px-6 md:px-24 bg-[#0a1428] overflow-hidden text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1428] via-[#0a1428]/70 to-transparent z-10"></div>
+        {/* image_9.png'daki arka planın dokusal hissi için hafif bir desen */}
+        <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNjNWExNTkiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNMCAwaDg0djI0SDBWMHptMjQgMjRoMjR2MjRIMjRWMjR6TTAgMjRoMjR2MjRIMFYyNHptMjQgMEgwaDI0djI0SDI0VjI0eiIvPjwvZz48L2c+PC9zdmc+')]"></div>
+
         <div className="relative z-20 max-w-5xl">
-          <div className="inline-block border border-[#c5a059] text-[#c5a059] px-4 py-1 rounded-sm text-[10px] font-black tracking-widest uppercase mb-8">
-            20 Yıllık Finansal Tecrübe
-          </div>
-          <h1 className="text-6xl md:text-9xl font-black mb-8 leading-[0.85] uppercase italic tracking-tighter">
-            Yatırımda <br/><span className="text-[#c5a059]">Elit</span> Standartlar
+          <div className="w-20 h-1 bg-[#c5a059] mb-8"></div>
+          {/* image_9.png'daki ana başlık ve renkler */}
+          <h1 className="text-6xl md:text-9xl font-black mb-8 leading-tight uppercase italic tracking-tighter">
+            Yatırımda <br/><span className="text-[#c5a059]">Elit</span> <br/>Standartlar
           </h1>
-          <p className="text-gray-400 text-xl max-w-3xl mb-12 font-medium italic leading-relaxed border-l-4 border-[#c5a059] pl-6">
-            Beklemeye son! T+0 likidite hızı, sıfır komisyon avantajı ve piyasa düşerken kazandıran çift yönlü işlem modelleriyle sermayenizi Elit Menkul güvencesiyle yönetin.
+          {/* image_9.png'daki açıklamanın profesyonelce detaylandırılmış hali */}
+          <p className="text-gray-300 text-xl max-w-3xl mb-12 font-medium italic leading-relaxed border-l-4 border-[#c5a059] pl-6">
+            Beklemeye son! İstanbul'un finans merkezindeki 20 yıllık tecrübemizle; T+0 likidite hızı, sıfır komisyon avantajı ve piyasa düşerken kazandıran çift yönlü işlem modelleriyle sermayenizi Elit Menkul güvencesiyle, profesyonelce yönetin.
           </p>
           <div className="flex flex-wrap gap-6">
-            <a href={REGISTER_URL} target="_blank" rel="noopener noreferrer" className="bg-[#c5a059] text-white px-16 py-6 rounded-md font-black text-sm uppercase tracking-widest hover:bg-white hover:text-[#1b294b] transition-all shadow-2xl">Hesabınızı Hemen Aktif Edin</a>
+            <a href={WHATSAPP_URL} target="_blank" className="bg-[#c5a059] text-white px-16 py-6 rounded-md font-black text-sm uppercase tracking-widest hover:bg-white hover:text-[#1b294b] transition-all shadow-2xl">
+              Hesabınızı Hemen Aktif Edin
+            </a>
+            <button onClick={() => setActiveModal('iletisim')} className="border-2 border-white/20 text-white px-12 py-6 rounded-md font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2">
+              <Phone size={18}/> Bizi Arayın
+            </button>
           </div>
         </div>
       </section>
 
-      {/* 5. 3 ALTIN KURAL - DETAYLI BÖLÜM */}
-      <section id="avantajlar" className="py-32 px-6 bg-white">
+      {/* 4. TEMEL AVANTAJLAR (Güven Artırıcı Bölüm) */}
+      <section className="py-32 px-6 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
-            <h2 className="text-5xl font-black uppercase italic tracking-tighter mb-4 text-[#1b294b]">Neden Bizi Seçmelisiniz?</h2>
+            <h2 className="text-5xl font-black uppercase italic tracking-tighter mb-4 text-[#1b294b]">Güvenilir Çözüm Ortağınız</h2>
             <div className="w-24 h-2 bg-[#c5a059] mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* T2 KURALI YOK */}
-            <div className="group p-12 bg-gray-50 rounded-[40px] border-t-8 border-[#1b294b] hover:shadow-2xl transition-all">
-              <ZapOff className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform" size={56} />
-              <h3 className="text-2xl font-black uppercase mb-6 italic leading-none">T+2 Kuralı <br/>Burada Yok</h3>
-              <p className="text-gray-500 leading-relaxed font-medium italic text-sm">
-                Sermaye piyasalarındaki klasik 2 günlük nakit bekleme süresini Elit Menkul altyapısıyla ortadan kaldırdık. Satış yaptığınız anda nakit gücünüz hesabınızda! Anlık fırsatları kaçırmadan portföyünüzü yeniden şekillendirin.
-              </p>
-            </div>
-
-            {/* SIFIR KOMİSYON */}
-            <div className="group p-12 bg-gray-50 rounded-[40px] border-t-8 border-[#c5a059] hover:shadow-2xl transition-all">
-              <CircleDollarSign className="text-[#1b294b] mb-8 group-hover:scale-110 transition-transform" size={56} />
-              <h3 className="text-2xl font-black uppercase mb-6 italic leading-none">Komisyonsuz <br/>İşlem Modeli</h3>
-              <p className="text-gray-500 leading-relaxed font-medium italic text-sm">
-                Yüksek işlem hacimlerinde kârınızı eriten komisyon oranlarına son veriyoruz. Yatırımcı dostu politikamızla gizli ücretler olmadan, %0 komisyon avantajıyla işlem yapın. Sizin kazancınız, sizin başarınızdır.
-              </p>
-            </div>
-
-            {/* ÇİFT YÖNLÜ İŞLEM */}
-            <div className="group p-12 bg-gray-50 rounded-[40px] border-t-8 border-[#1b294b] hover:shadow-2xl transition-all">
-              <TrendingDown className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform" size={56} />
-              <h3 className="text-2xl font-black uppercase mb-6 italic leading-none">Düşüşten <br/>Kazanç Sağlayın</h3>
-              <p className="text-gray-500 leading-relaxed font-medium italic text-sm">
-                Piyasanın sadece yükselmesini bekleyerek vakit kaybetmeyin. Açığa satış (Short) ve VİOP entegrasyonumuz sayesinde, fiyatlar düşerken de kâr elde etme avantajını yakalayın. Her trendi kazanca dönüştürün.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. HAKKIMIZDA / KURUMSAL GÜVENCE */}
-      <section id="hakkimizda" className="py-32 px-6 bg-[#fcfcfc] border-y border-gray-100">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-          <div>
-             <h2 className="text-5xl font-black uppercase italic mb-10 leading-[1.1]">20 Yıllık <br/> Kurumsal Miras</h2>
-             <p className="text-gray-600 text-lg leading-relaxed mb-8 italic font-medium">
-                Elit Menkul Değerler A.Ş., 2003 yılında İstanbul'da kurulan, sermaye piyasalarının öncü ve geniş yetkili aracı kurumlarından biridir. Binlerce yatırımcımıza modern teknoloji ve şeffaf hizmet anlayışıyla aracılık ediyoruz.
-             </p>
-             <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                    <CheckCircle2 className="text-[#c5a059]" />
-                    <span className="font-black uppercase text-xs tracking-widest text-[#1b294b]">Tamamen Takasbank Güvencesinde Varlık Yönetimi</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <CheckCircle2 className="text-[#c5a059]" />
-                    <span className="font-black uppercase text-xs tracking-widest text-[#1b294b]">SPK Lisanslı ve Düzenli Denetlenen Şeffaf Yapı</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <CheckCircle2 className="text-[#c5a059]" />
-                    <span className="font-black uppercase text-xs tracking-widest text-[#1b294b]">Hafta İçi 24 Saat Kesintisiz Uzman Desteği</span>
-                </div>
-             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="bg-white p-12 rounded-[40px] shadow-xl border-b-8 border-[#c5a059] text-center">
-               <Users className="mx-auto mb-4 text-gray-300" size={40} />
-               <div className="text-5xl font-black text-[#1b294b] mb-2 tracking-tighter">100K+</div>
-               <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Aktif Yatırımcı</div>
-            </div>
-            <div className="bg-[#1b294b] p-12 rounded-[40px] shadow-xl border-b-8 border-white text-center">
-               <TrendingUp className="mx-auto mb-4 text-[#c5a059]" size={40} />
-               <div className="text-5xl font-black text-white mb-2 tracking-tighter">₺50M+</div>
-               <div className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Günlük Hacim</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. PİYASA ENSTRÜMANLARI */}
-      <section id="piyasalar" className="py-32 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-black uppercase italic tracking-tighter mb-4">Piyasa Erişimi</h2>
-            <p className="text-gray-400 font-bold uppercase tracking-[0.3em] text-xs">Tek Platform, Sınırsız İmkan</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { t: "Hisse Senedi", i: <TrendingUp />, d: "BİST ve Global Borsalar" },
-              { t: "VİOP / Futures", i: <PieChart />, d: "Kaldıraçlı İşlem Gücü" },
-              { t: "Emtia / Altın", i: <Landmark />, d: "Değerli Metal Ticareti" },
-              { t: "Forex", i: <Globe />, d: "24 Saat Kesintisiz Döviz" }
-            ].map((p, idx) => (
-              <div key={idx} className="bg-gray-50 p-10 rounded-3xl hover:bg-[#1b294b] group transition-all">
-                <div className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform">{p.i}</div>
-                <h4 className="font-black text-gray-800 group-hover:text-white uppercase text-sm mb-2">{p.t}</h4>
-                <p className="text-xs text-gray-400 group-hover:text-gray-300 font-bold uppercase tracking-tighter">{p.d}</p>
+              { icon: <Shield size={48} className="text-[#c5a059]" />, title: "Kurumsal Güvence", desc: "Takasbank saklama güvencesi ve SPK denetimine tabi, şeffaf aracı kurum hizmeti." },
+              { icon: <ZapOff size={48} className="text-[#c5a059]" />, title: "Yüksek Hız (T+0)", desc: "Satış tutarını aynı gün nakit olarak kullanın, piyasa fırsatlarını kaçırmayın." },
+              { icon: <ArrowDownUp size={48} className="text-[#c5a059]" />, title: "Çift Yönlü Piyasa", desc: "Piyasa sadece yükselirken değil, düşerken de kazanabileceğiniz işlem modelleri." }
+            ].map((item, index) => (
+              <div key={index} className="bg-gray-50 p-10 rounded-3xl border border-gray-100 hover:shadow-2xl transition-all group">
+                <div className="mb-8 group-hover:scale-110 transition-transform">{item.icon}</div>
+                <h3 className="text-2xl font-black uppercase mb-4 italic text-[#1b294b]">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed font-medium italic text-sm">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 8. İLETİŞİM & FOOTER */}
-      <footer id="iletisim" className="bg-[#0a1428] text-white py-24 px-6 border-t border-[#c5a059]/20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-20">
-          <div>
-             <div className="text-4xl font-light italic mb-8">Elit <span className="text-[#c5a059] font-black">Menkul</span></div>
-             <p className="text-gray-500 text-sm leading-relaxed italic font-medium">
-               2003'ten beri İstanbul'un finans merkezinde, yatırımcının yanındayız. Güven, hız ve teknolojiyle geleceği inşa ediyoruz.
+      {/* 5. GÜVENLİK VE LİSANS VURGUSU */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+          <div className="flex-1">
+             <h2 className="text-4xl font-black uppercase italic mb-8 border-l-8 border-[#1b294b] pl-6 text-[#1b294b]">Mevzuata Tam Uyum</h2>
+             <p className="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                Elit Menkul Değerler A.Ş., Sermaye Piyasası Kurulu (SPK) tarafından lisanslanmış ve düzenli olarak denetlenen, geniş yetkili bir aracı kurumdur. Yatırımcılarımızın haklarını en üst seviyede koruma taahhüdümüz, kurumsal kültürümüzün temelini oluşturur.
              </p>
-          </div>
-          <div className="space-y-8">
-             <h5 className="font-black uppercase text-xs tracking-[0.3em] text-[#c5a059]">BİZE ULAŞIN</h5>
-             <div className="space-y-4">
-               <a href={`tel:${TELEFON}`} className="flex items-center gap-4 hover:text-[#c5a059] transition">
-                  <Phone size={18} /> <span className="font-bold">{TELEFON}</span>
-               </a>
-               <div className="flex items-center gap-4 hover:text-[#c5a059] transition cursor-pointer">
-                  <Mail size={18} /> <span className="font-bold">info@elitmenkultr.com</span>
-               </div>
-               <div className="flex items-center gap-4 text-gray-500 italic text-sm">
-                  <Clock size={18} /> <span>Pzt - Cum: 09:00 - 18:00</span>
-               </div>
+             <div className="flex items-center gap-3 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+               <Shield className="text-green-500" />
+               <span className="font-bold text-gray-800">Tüm varlıklarınız Takasbank nezdinde, isminize özel saklanır.</span>
              </div>
           </div>
-          <div className="space-y-8">
-             <h5 className="font-black uppercase text-xs tracking-[0.3em] text-[#c5a059]">YASAL UYARI</h5>
-             <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-bold tracking-tighter">
-               Yatırım yapmak risk içerir. Geçmiş performans gelecek sonuçların garantisi değildir. Lütfen yatırım kararlarınızdan önce risk formunu okuyunuz.
-             </p>
+          <div className="w-full md:w-auto grid grid-cols-2 gap-4">
+             {[
+              { label: "Kuruluş", value: "2003" },
+              { label: "Denetim", value: "SPK" },
+              { label: "Saklama", value: "Takasbank" },
+              { label: "Şube", value: "İstanbul" }
+             ].map(item => (
+                <div key={item.label} className="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 text-center">
+                   <div className="text-5xl font-black text-[#1b294b] mb-1 tracking-tighter">{item.value}</div>
+                   <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{item.label}</div>
+                </div>
+             ))}
           </div>
         </div>
-        <div className="text-center mt-24 pt-12 border-t border-white/5">
-           <p className="text-[10px] text-gray-600 font-black tracking-[0.4em] uppercase">© 2026 ELİT MENKUL DEĞERLER A.Ş. — TÜM HAKLARI SAKLIDIR.</p>
+      </section>
+
+      {/* 6. SIK SORULAN SORULAR */}
+      <section className="py-32 px-6 bg-white border-b border-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-4 text-[#1b294b]">Merak Edilenler</h2>
+            <div className="w-16 h-1 bg-[#c5a059] mx-auto"></div>
+          </div>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-sm hover:border-[#c5a059]/20 transition">
+                <button 
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full flex justify-between items-center p-7 text-left group"
+                >
+                  <span className="font-bold text-[#1b294b] uppercase text-sm">{faq.q}</span>
+                  {openFaq === index ? <Minus size={20} className="text-[#c5a059]" /> : <Plus size={20} className="text-gray-400 group-hover:text-[#c5a059]" />}
+                </button>
+                {openFaq === index && (
+                  <div className="p-7 bg-gray-50 text-gray-600 border-t border-gray-100 italic text-sm animate-in fade-in duration-300">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. FOOTER */}
+      <footer id="iletisim" className="bg-[#1b294b] text-white py-20 px-6 mt-auto">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center gap-2 justify-center mb-4">
+              <div className="w-10 h-10 bg-[#c5a059] flex items-center justify-center rounded-lg font-black text-[#1b294b] text-xl italic shadow-lg">E</div>
+              <div className="text-3xl font-black mb-4 uppercase italic tracking-tighter">ELİT <span className="text-[#c5a059]">MENKUL</span></div>
+          </div>
+          <p className="text-[11px] text-gray-500 uppercase tracking-[0.2em] font-bold">© 2026 ELİT MENKUL DEĞERLER A.Ş. — TÜM HAKLARI SAKLIDIR.</p>
         </div>
       </footer>
 
-      {/* WHATSAPP FLOAT BUTTON */}
-      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="fixed bottom-10 right-10 z-[200] bg-[#25d366] text-white p-5 rounded-full shadow-[0_0_30px_rgba(37,211,102,0.5)] hover:scale-110 transition-transform active:scale-95">
-        <MessageCircle size={32} />
+      {/* MODAL: İletişim */}
+      {activeModal === 'iletisim' && (
+        <div className="fixed inset-0 bg-black/80 z-[200] flex items-center justify-center p-6 animate-in fade-in" onClick={() => setActiveModal(null)}>
+          <div className="bg-white p-12 rounded-3xl max-w-lg w-full relative shadow-2xl" onClick={e => e.stopPropagation()}>
+            <button onClick={() => setActiveModal(null)} className="absolute top-6 right-6 text-gray-400 hover:text-black transition">
+              <X size={24} />
+            </button>
+            <h3 className="text-3xl font-black uppercase italic mb-8 text-[#1b294b]">Bizi Arayın</h3>
+            <div className="space-y-6 text-lg">
+                <a href={`tel:${TELEFON}`} className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl hover:bg-[#c5a059]/10 transition">
+                  <Phone className="text-[#c5a059]" size={24}/> <span className="font-bold text-gray-900">{TELEFON}</span>
+                </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* SABİT WHATSAPP BUTONU */}
+      <a href={WHATSAPP_URL} target="_blank" className="fixed bottom-6 right-6 z-[999] bg-[#25d366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform active:scale-95">
+        <MessageCircle size={30} />
       </a>
     </div>
   );
