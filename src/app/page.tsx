@@ -40,8 +40,9 @@ export default function ElitMenkulFinalPortal() {
 
   const WHATSAPP_URL = "https://wa.me/905391046011"; 
   const TELEFON = "+90 539 104 60 11";
-  // Mail bildirimleri için Formspree endpoint'i (Aktivasyon maili atillabaykal0066@gmail.com adresine gidecektir)
-  const FORMSPREE_URL = "https://formspree.io/f/xvgopkzw"; 
+  
+  // SENİN YENİ FORMSPREE ID'N BURAYA EKLENDİ
+  const FORMSPREE_URL = "https://formspree.io/f/mbdzrgnr"; 
 
   // Kazanç hesaplama: 50.000 TL -> 15.000 TL (%30 aylık getiri vurgusu)
   const monthlyProfit = (investment * 0.30).toLocaleString('tr-TR', { maximumFractionDigits: 0 });
@@ -57,9 +58,14 @@ export default function ElitMenkulFinalPortal() {
         body: formData,
         headers: { 'Accept': 'application/json' }
       });
-      if (response.ok) setIsSubmitted(true);
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert("Bir hata oluştu, lütfen tekrar deneyin.");
+      }
     } catch (error) {
       console.error("Gönderim hatası", error);
+      alert("Bağlantı hatası oluştu.");
     } finally {
       setLoading(false);
     }
@@ -237,7 +243,6 @@ export default function ElitMenkulFinalPortal() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-8">
-                <input type="hidden" name="form-name" value="elit-kayit" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-5">İsim Soyisim</label>
