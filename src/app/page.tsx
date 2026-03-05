@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from 'react';
 import { 
   Shield, 
   BarChart3, 
@@ -19,7 +18,8 @@ import {
   Zap,
   Building2,
   History,
-  Award
+  Award,
+  TrendingUp // Bunu da ekleyelim, lazım olabilir
 } from 'lucide-react';
 
 export default function ElitMenkulFinalMaster() {
