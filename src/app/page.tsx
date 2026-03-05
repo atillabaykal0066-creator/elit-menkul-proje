@@ -41,6 +41,7 @@ export default function ElitMenkulFinalPortal() {
   const TELEFON = "+90 539 104 60 11";
   const FORMSPREE_URL = "https://formspree.io/f/mbdzrgnr"; 
 
+  // Getiri hesaplama: %30 hedefli
   const monthlyProfit = (investment * 0.30).toLocaleString('tr-TR', { maximumFractionDigits: 0 });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,9 +54,11 @@ export default function ElitMenkulFinalPortal() {
         body: formData,
         headers: { 'Accept': 'application/json' }
       });
-      if (response.ok) setIsSubmitted(true);
+      if (response.ok) {
+        setIsSubmitted(true);
+      }
     } catch (error) {
-      console.error("Gönderim hatası", error);
+      console.error("Form gönderim hatası", error);
     } finally {
       setLoading(false);
     }
@@ -104,21 +107,30 @@ export default function ElitMenkulFinalPortal() {
       </nav>
 
       {/* HERO SECTION */}
-      <section className="relative h-[700px] flex items-center px-6 md:px-24 bg-[#0a1428] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bbbda536339a?q=80&w=2070')] bg-cover opacity-10"></div>
+      <section className="relative h-[750px] flex items-center px-6 md:px-24 bg-[#0a1428] text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974717482-4800b1ee2e24?q=80&w=2070')] bg-cover opacity-10 scale-110"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1428] via-[#0a1428]/95 to-transparent z-10"></div>
+        
         <div className="relative z-20 max-w-7xl">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-[2px] bg-[#c5a059]"></div>
+            <div className="text-[#c5a059] text-[11px] font-black tracking-[0.5em] uppercase">Sermaye Yönetiminde Yeni Nesil Standart</div>
+          </div>
           <h1 className="text-5xl md:text-8xl font-black mb-10 leading-tight uppercase italic tracking-tighter">
             Yatırımda <br/><span className="text-[#c5a059] text-6xl md:text-9xl">Elit Standartlar</span>
           </h1>
           <p className="text-gray-400 text-xl max-w-2xl mb-14 font-medium italic leading-relaxed border-l-4 border-[#c5a059] pl-8">
-            Global piyasalarda T+0 likidite hızı ve %100 şeffaf saklama güvencesi. Sermayenizi SPK regülasyonlarına uygun, elit stratejilerle yönetin.
+            T+0 likidite hızı ve sıfır komisyon avantajıyla sermayenizi yönetin. Piyasa düşerken de kazandıran "Elit Stratejiler" ile tanışın.
           </p>
-          <a href="#kayit" className="bg-[#c5a059] text-white px-20 py-8 rounded-sm font-black text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-[#1b294b] transition-all shadow-2xl">BAŞVURUNUZU YAPIN</a>
+          <div className="flex flex-wrap gap-8 items-center">
+            <a href="#kayit" className="bg-[#c5a059] text-white px-20 py-8 rounded-sm font-black text-sm uppercase tracking-[0.2em] hover:bg-white hover:text-[#1b294b] transition-all shadow-2xl">
+              ÜYELİĞİNİZİ BAŞLATIN
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* YENİ GÜVEN VE LİSANS BÖLÜMÜ */}
+      {/* GÜVEN VE LİSANS BÖLÜMÜ */}
       <section id="guven" className="py-32 px-6 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -198,21 +210,28 @@ export default function ElitMenkulFinalPortal() {
         </div>
       </section>
 
-      {/* YATIRIM HESAPLAMA & VURGULANAN KAZANÇ */}
-      <section id="hesaplama" className="py-32 px-6 bg-white overflow-hidden relative">
+      {/* YATIRIM HESAPLAMA */}
+      <section id="hesaplama" className="py-32 px-6 bg-white overflow-hidden relative border-b border-gray-100">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="space-y-10">
-            <h2 className="text-5xl font-black uppercase italic tracking-tighter leading-tight text-[#1b294b]">Getiri <br/><span className="text-[#c5a059]">Potansiyeli</span></h2>
+            <h2 className="text-5xl font-black uppercase italic tracking-tighter leading-tight text-[#1b294b]">
+              Getiri <br/><span className="text-[#c5a059]">Potansiyeli</span>
+            </h2>
             <div className="space-y-12 bg-gray-50 p-10 rounded-[30px] border border-gray-100 shadow-inner">
               <div className="space-y-6">
                 <div className="flex justify-between text-xs font-black uppercase tracking-widest text-gray-400">
                   <span>Sermaye Miktarı</span>
                   <span className="text-[#c5a059] text-2xl font-black">{investment.toLocaleString()} TL</span>
                 </div>
-                <input type="range" min="10000" max="1000000" step="10000" value={investment} onChange={(e) => setInvestment(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#c5a059]" />
+                <input 
+                  type="range" min="10000" max="1000000" step="10000" value={investment} 
+                  onChange={(e) => setInvestment(Number(e.target.value))} 
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#c5a059]" 
+                />
               </div>
             </div>
           </div>
+
           <div className="bg-[#1b294b] p-16 rounded-[50px] text-white shadow-[0_40px_100px_rgba(27,41,75,0.4)] relative border-b-8 border-[#c5a059]">
             <div className="absolute top-0 right-0 p-10 opacity-5"><Icons.TrendingUp size={150} /></div>
             <div className="relative z-10 space-y-10 text-center md:text-left">
@@ -233,7 +252,7 @@ export default function ElitMenkulFinalPortal() {
       </section>
 
       {/* STRATEJİK HİZMETLER */}
-      <section className="py-40 px-6 bg-gray-50">
+      <section id="hizmetler" className="py-40 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
           <div className="bg-white p-12 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 group">
              <Icons.ZapOff className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform" size={48} />
@@ -243,17 +262,17 @@ export default function ElitMenkulFinalPortal() {
           <div className="bg-white p-12 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 group">
              <Icons.CircleDollarSign className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform" size={48} />
              <h3 className="text-2xl font-black uppercase italic mb-6">Sıfır <br/>Komisyon</h3>
-             <p className="text-gray-500 text-sm italic leading-relaxed">Hacim kısıtlaması olmadan, kazancınızın tamamını elinizde tutun. İşlem maliyetlerini elit bir şekilde yönetin.</p>
+             <p className="text-gray-500 text-sm italic leading-relaxed">Sıfır komisyon avantajıyla kazancınızın tamamı cebinizde kalsın. Yatırım maliyetlerini tarihe gömün.</p>
           </div>
           <div className="bg-white p-12 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 group">
              <Icons.ArrowDownUp className="text-[#c5a059] mb-8 group-hover:scale-110 transition-transform" size={48} />
              <h3 className="text-2xl font-black uppercase italic mb-6">Çift Yönlü <br/>Kâr Planı</h3>
-             <p className="text-gray-500 text-sm italic leading-relaxed">Piyasa düşerken de kazanma özgürlüğü. Açığa satış yetkisiyle her koşulda portföyünüzü koruyun.</p>
+             <p className="text-gray-500 text-sm italic leading-relaxed">Piyasaların düşüşünden endişe etmeyin. Açığa satış yetkisiyle her türlü trendde kâr odaklı kalın.</p>
           </div>
         </div>
       </section>
 
-      {/* KAYIT FORMU & ONAY EKRANI */}
+      {/* KAYIT FORMU */}
       <section id="kayit" className="py-40 px-6 bg-white relative">
         <div className="max-w-4xl mx-auto">
           {!isSubmitted ? (
@@ -262,6 +281,7 @@ export default function ElitMenkulFinalPortal() {
                 <h2 className="text-5xl font-black uppercase italic tracking-tighter text-[#1b294b] mb-4">Üyelik Başvurusu</h2>
                 <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.4em]">Finansal Elitlerin Arasına Katılın</p>
               </div>
+
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
@@ -283,7 +303,10 @@ export default function ElitMenkulFinalPortal() {
                     <input name="referans" className="w-full bg-gray-50 border-none p-6 rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#c5a059] transition-all" placeholder="Varsa Referans No" />
                   </div>
                 </div>
-                <button disabled={loading} className="w-full bg-[#1b294b] text-white py-8 rounded-[20px] font-black uppercase tracking-[0.4em] text-sm hover:bg-[#c5a059] transition-all shadow-xl flex justify-center items-center gap-4 group">
+                <button 
+                  disabled={loading}
+                  className="w-full bg-[#1b294b] text-white py-8 rounded-[20px] font-black uppercase tracking-[0.4em] text-sm hover:bg-[#c5a059] transition-all shadow-xl flex justify-center items-center gap-4 group"
+                >
                   {loading ? "GÖNDERİLİYOR..." : "ÜYELİĞİ BAŞLAT"} <Icons.ArrowRight className="group-hover:translate-x-2 transition-transform" />
                 </button>
               </form>
