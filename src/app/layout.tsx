@@ -5,21 +5,34 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Elit Menkul Değerler | Hızlı ve Güvenli Yatırım",
-  description: "2003'ten beri İstanbul'un yatırım merkezi. Hisse senedi ve VİOP'ta profesyonel çözüm.",
+  // Tarayıcı sekmesinde ve Google'da görünecek isim
+  title: "Elit Menkul Değerler | Yatırımda Elit Standartlar",
+  
+  // Site paylaşıldığında (Telegram, WhatsApp vb.) görünecek açıklama
+  description: "T+0 likidite hızı ve sıfır komisyon avantajıyla sermayenizi Elit Menkul güvencesiyle yönetin. SPK denetimli resmi yatırım platformu.",
+  
+  // Favicon ve ikon ayarları
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        url: "/favicon.ico", // Public klasöründeki favicon dosyanız
+        href: "/favicon.ico",
+      },
+    ],
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="tr">
-      <body className={inter.className}>{children}</body>
+    <html lang="tr" className="scroll-smooth">
+      <body className={inter.className}>
+        {/* Sayfa içeriği burada yüklenir */}
+        {children}
+      </body>
     </html>
   );
 }
